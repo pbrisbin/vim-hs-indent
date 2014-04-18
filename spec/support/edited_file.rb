@@ -28,7 +28,7 @@ module EditedFile
     end
 
     def contents
-      File.read(file_name)
+      File.read(file_name).chomp
     end
 
     def remove
