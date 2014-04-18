@@ -3,11 +3,11 @@ module Dedent
     indent = 10_000_000
 
     string.lines do |line|
-      length = line.sub(/^( *).*$/, '\1').length
-      indent = length if length < indent
+      length = line.chomp.sub(/^( *).*$/, '\1').length
+      indent = length if !length.zero? && length < indent
     end
 
-    string.split("\n").map { |line| line[(indent-1)..-1] }.join("\n")
+    string.split("\n").map { |line| line[indent..-1] }.join("\n")
   end
 end
 
