@@ -16,5 +16,20 @@ if exists("*GetHaskellIndent")
 endif
 
 function GetHaskellIndent(line_num)
-  return 4
+  let prev_line   = getline(a:line_num - 1)
+  let prev_indent = indent(prev_line)
+
+  if a:line_num == 0
+    return 0
+  end
+
+  if prev_line =~ '^\(module\|\s*[(,]\)'
+    return prev_indent + 5
+  end
+
+  if prev_line =~ '^\s*)'
+    return prev_indent - 5
+  end
+
+  return prev_indent
 endfunction
