@@ -1,31 +1,59 @@
 require 'spec_helper'
 
 describe "Haskell indentation" do
-  context "Module exports" do
-    it "indents multi-line exports correctly" do
-      edit do
-        vim.insert dedent(<<-EOF)
-          module Main
+  it "indents multi-line exports correctly" do
+    edit do
+      vim.insert dedent(<<-EOF)
+        module Main
+        ( one
+        , two
+        , three
+        )
+      EOF
+    end
+
+    expect(contents).to eq dedent(<<-EOF)
+      module Main
           ( one
           , two
           , three
           )
+    EOF
+  end
 
-          main :: IO ()
-          main = hPutStrLn "Hello World"
-        EOF
-      end
-
-      expect(contents).to eq dedent(<<-EOF)
-        module Main
-            ( one
-            , two
-            , three
-            )
-
-        main :: IO ()
-        main = hPutStrLn "Hello World"
+  it "indents sum types correctly" do
+    edit do
+      vim.insert dedent(<<-EOF)
+        data Colors
+        = Red
+        | Blue
+        | Yellow
       EOF
     end
+
+    expect(contents).to eq dedent(<<-EOF)
+      data Colors
+          = Red
+          | Blue
+          | Yellow
+    EOF
+  end
+
+  it "indents record types correctly" do
+    edit do
+      vim.insert dedent(<<-EOF)
+        data Person = Person
+        { age :: Int
+        , name :: String
+        }
+      EOF
+    end
+
+    expect(contents).to eq dedent(<<-EOF)
+      data Person = Person
+          { age :: Int
+          , name :: String
+          }
+    EOF
   end
 end

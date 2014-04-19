@@ -11,6 +11,7 @@ Vimrunner::RSpec.configure do |config|
   config.start_vim do
     vim = Vimrunner.start
     vim.append_runtimepath(ROOT)
+    vim.set(:shiftwidth, 4)
 
     vim
   end
